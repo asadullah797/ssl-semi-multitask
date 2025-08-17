@@ -1,5 +1,4 @@
 
-# === [INSERTED BY ChatGPT] Multi-GPU helpers ===
 import os
 import re
 import json
@@ -271,56 +270,6 @@ train_dataloader = DataLoader(train_dataset, batch_size=8, shuffle=True, collate
 valid_dataloader = DataLoader(valid_dataset, batch_size=8, shuffle=True, collate_fn=data_collator)
 test_dataloader = DataLoader(test_dataset, batch_size=8, shuffle=False, collate_fn=data_collator)
 # return train_dataloader, valid_dataloader, test_dataset, tokenizer, vocab_dict, speaker_to_id, emotion_to_id
-
-# import torch
-# import torch.nn as nn
-
-# class Wav2Vec2MultiTask(nn.Module):
-#     def __init__(self, base_model="facebook/wav2vec2-base", num_phonemes=len(vocab_dict), num_speakers=len(speaker_to_id), num_emotions=len(emotion_to_id)):
-#         super().__init__()
-#         self.num_phonemes = num_phonemes
-#         self.wav2vec = Wav2Vec2Model.from_pretrained("facebook/wav2vec2-base")
-#         for param in self.wav2vec.feature_extractor.parameters():
-#             param.requires_grad = False
-#         self.hubert  = HubertModel.from_pretrained("facebook/hubert-base-ls960")
-#         for param in self.hubert.feature_extractor.parameters():
-#             param.requires_grad = False
-#         self.dropout = nn.Dropout(0.1)
-#         self.w2v_logits = nn.Linear(self.wav2vec.config.hidden_size, num_phonemes)
-#         self.hub_logits = nn.Linear(self.hubert.config.hidden_size, num_phonemes)
-#         self.combine_proj = nn.Linear(2 * self.num_phonemes, self.num_phonemes)
-#         self.speaker_classifier = nn.Linear(self.wav2vec.config.hidden_size + self.hubert.config.hidden_size, num_speakers)
-#         self.emotion_classifier = nn.Linear(self.wav2vec.config.hidden_size + self.hubert.config.hidden_size, num_emotions)
-
-#     def forward(self, input_values, attention_mask=None):
-#         w2v_out = self.wav2vec(input_values, attention_mask=attention_mask)
-#         hub_out = self.hubert(input_values, attention_mask=attention_mask)
-
-#         w2v_logits = self.w2v_logits(self.dropout(w2v_out.last_hidden_state))
-#         hub_logits = self.hub_logits(self.dropout(hub_out.last_hidden_state))
-#         combined_logits = torch.cat((w2v_logits, hub_logits), dim=-1)  # (B, T, 2*P)
-#         phoneme_logits = self.combine_proj(combined_logits)  # (B, T, P)
-
-#         hidden_states = torch.cat((w2v_out.last_hidden_state, hub_out.last_hidden_state), dim=-1)
-#         pooled = hidden_states.mean(dim=1)
-#         speaker_logits = self.speaker_classifier(self.dropout(pooled))
-#         emotion_logits = self.emotion_classifier(self.dropout(pooled))
-
-#         return phoneme_logits, speaker_logits, emotion_logits
-
-# def multitask_loss(phoneme_logits, phoneme_labels, speaker_logits, speaker_labels, emotion_logits, emotion_labels):
-#     ce_loss_fn = nn.CrossEntropyLoss(ignore_index=-100)
-
-#     speaker_loss = ce_loss_fn(speaker_logits, speaker_labels)
-
-#     emotion_loss = ce_loss_fn(emotion_logits, emotion_labels)
-
-#     phoneme_logits = phoneme_logits.contiguous().view(-1, phoneme_logits.size(-1))
-#     phoneme_labels = phoneme_labels.contiguous().view(-1)
-#     phoneme_loss = ce_loss_fn(phoneme_logits, phoneme_labels)
-#     loss = phoneme_loss #+ speaker_loss + emotion_loss
-
-#     return loss, phoneme_loss, speaker_loss, emotion_loss
 
 
 class Wav2Vec2MultiTasks(nn.Module):
