@@ -1,0 +1,8 @@
+datasets>=1.18.3
+transformers
+librosa
+seaborn
+jiwer
+python-Levenshtein
+evaluate
+num2words
