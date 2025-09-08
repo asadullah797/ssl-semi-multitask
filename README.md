@@ -1,6 +1,5 @@
 ---
 license: mit
-pipeline_tag: audio-classification
 tags:
 - automatic-speech-recognition
 - emotion-recognition
