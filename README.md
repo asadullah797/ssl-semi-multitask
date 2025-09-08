@@ -4,8 +4,6 @@ pipeline_tag: audio-classification
 tags:
 - automatic-speech-recognition
 - emotion-recognition
-- model_hub_mixin
-- pytorch_model_hub_mixin
 - speaker-identification
 ---
 
