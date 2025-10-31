@@ -1,0 +1,2 @@
+from .configuration_wav2vec2_multitask import Wav2Vec2MultiTaskConfig
+from .modeling_wav2vec2_multitask import Wav2Vec2ForMultiTask
