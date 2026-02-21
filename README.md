@@ -11,10 +11,7 @@ This is a fine-tuned **Wav2Vec2.0** model for **multi-task learning**:
 from transformers import AutoModel, AutoConfig, AutoProcessor
 
 model = AutoModel.from_pretrained(
-    "from transformers import AutoModel, AutoConfig, AutoProcessor
-
-model = AutoModel.from_pretrained(
-    "asadullah797/my-wav2vec2-multitask",
+    "asadullah797/ssl-wav2vec2-multitask",
     trust_remote_code=True
 )
 
